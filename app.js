@@ -7,9 +7,11 @@ var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
-
 var app = express();
-var weixin=require('./libs/weichat.js');
+
+var wechat = require('wechat');
+
+//var weixin=require('./libs/weichat.js');
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -25,7 +27,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 //wangjia add below 20160625
 app.use('/users', users);
-app.use('/weixin', weixin);
+//app.use('/weixin', weixin);
 app.use(express.query()); // Or app.use(express.query());
 app.use('/wechat', wechat('blablablabla', function (req, res, next) { //token add
  // 微信输入信息都在req.weixin上
@@ -44,6 +46,10 @@ app.use('/wechat', wechat('blablablabla', function (req, res, next) { //token ad
           + "\n"+ emptyStr + "\n" + deleteStr + "\n"+ emptyStr + "\n" + historyStr;
   res.reply(replyStr);
  }
+if(message.MsgType == 'text')
+{
+    res.reply({ type: "text", content: "you input " + message.Content});  
+}
 }));
 
 // catch 404 and forward to error handler
