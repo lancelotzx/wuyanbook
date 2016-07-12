@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 var crypto = require('crypto');
-var User = require('../modules/user.js');
+//var User = require('../modules/user.js');
 /*
  * GET home page.
  */
