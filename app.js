@@ -6,7 +6,8 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
-var users = require('./routes/users');
+var users = require('./routes/users')
+
 var app = express();
 
 var wechat = require('wechat');
@@ -24,33 +25,47 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', routes);
+//app.use(app.router);//deprecated
+//app.use('/hello', routes);
 //wangjia add below 20160625
-app.use('/users', users);
+//app.use('/users', users);
 //app.use('/weixin', weixin);
 app.use(express.query()); // Or app.use(express.query());
 app.use('/wechat', wechat('blablablabla', function (req, res, next) { //token add
  // 微信输入信息都在req.weixin上
  var message = req.weixin;
  console.log(message);
+
  if((message.MsgType == 'event') && (message.Event == 'subscribe'))
  {
-  var refillStr = "<a href=\"http://your_IP/weixin/refill?weixinId=" + message.FromUserName + "\">1. 点击记录团队充值</a>"
-      
-  var consumeStr = "<a href=\"http://your_IP/weixin/consume?weixinId=" + message.FromUserName + "\">2. 点击记录团队消费</a>"
-  var deleteStr = "<a href=\"http://your_IP/weixin/delete?weixinId=" + message.FromUserName + "\">3. 点击回退记录</a>"      
-  var historyStr = "<a href=\"http://your_IP/weixin/history?weixinId=" + message.FromUserName + "\">4. 点击查询历史记录</a>"
+
+  var registerStr = "<a href=\"http://52.10.69.3?weixinId=" + 
+  message.FromUserName + "\">1. 点击开始注册</a>" 
+  var refillStr = "<a href=\"http://52.10.69.3/weixin/refill?weixinId=" + 
+  message.FromUserName + "\">1. 点击查看当前借阅</a>"     
+  var consumeStr = "<a href=\"http://52.10.69.3/weixin/consume?weixinId=" +
+   message.FromUserName + "\">2. 点击查看书单</a>"
+  var deleteStr = "<a href=\"http://52.10.69.3/weixin/delete?weixinId=" + 
+  message.FromUserName + "\">3. Show me lucky one</a>"      
+  var historyStr = "<a href=\"http://52.10.69.3/weixin/history?weixinId=" + 
+  message.FromUserName + "\">4. 点击查询历史记录</a>"
       
   var emptyStr = "          ";    
-  var replyStr = "感谢你的关注！" + "\n"+ emptyStr + "\n" + refillStr + "\n"+ emptyStr + "\n" + consumeStr 
-          + "\n"+ emptyStr + "\n" + deleteStr + "\n"+ emptyStr + "\n" + historyStr;
+  var replyStr = "感谢你的关注！" + "\n"+ emptyStr + "\n" + refillStr + "\n"+ 
+  emptyStr + "\n" + consumeStr  + "\n"+ emptyStr + "\n" + deleteStr + "\n"+ 
+  emptyStr + "\n" + historyStr;
   res.reply(replyStr);
  }
 if(message.MsgType == 'text')
 {
-    res.reply({ type: "text", content: "you input " + message.Content});  
+    res.reply({ type: "text", content: "you input " + message.Content + "\n"+
+    "you are" + message.FromUserName});  
 }
 }));
+
+
+app.use('/', routes);
+app.use('/users', users);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -82,6 +97,11 @@ app.use(function(err, req, res, next) {
     error: {}
   });
 });
+
+
+//console.log('注册路由.');
+
+//routes(app);
 
 
 module.exports = app;
