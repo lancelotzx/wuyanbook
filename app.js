@@ -51,7 +51,7 @@ app.use('/wechat', wechat('blablablabla', function (req, res, next) { //token ad
   message.FromUserName + "\">4. 点击查询历史记录</a>"
       
   var emptyStr = "          ";    
-  var replyStr = "感谢你的关注！" + "\n"+ emptyStr + "\n" + refillStr + "\n"+ 
+  var replyStr = "感谢你的关注！" + "\n"+ emptyStr + "\n" +registerStr +"\n"+ refillStr + "\n"+ 
   emptyStr + "\n" + consumeStr  + "\n"+ emptyStr + "\n" + deleteStr + "\n"+ 
   emptyStr + "\n" + historyStr;
   res.reply(replyStr);
