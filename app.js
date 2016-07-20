@@ -39,7 +39,7 @@ app.use('/wechat', wechat('blablablabla', function (req, res, next) { //token ad
  if((message.MsgType == 'event') && (message.Event == 'subscribe'))
  {
 
-  var registerStr = "<a href=\"http://52.10.69.3?weixinId=" + 
+  var registerStr = "<a href=\"http://www.wylib.top/register.html?weixinId=" + 
   message.FromUserName + "\">1. 点击开始注册</a>" 
   var refillStr = "<a href=\"http://52.10.69.3/weixin/refill?weixinId=" + 
   message.FromUserName + "\">1. 点击查看当前借阅</a>"     
