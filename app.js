@@ -6,35 +6,39 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
-var users = require('./routes/users')
+var users = require('./routes/users');
+
+var dbcon = require('./mongodbcon');
 
 var app = express();
 
 var wechat = require('wechat');
 
-//var weixin=require('./libs/weichat.js');
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-// uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-//app.use(app.router);//deprecated
-//app.use('/hello', routes);
-//wangjia add below 20160625
-//app.use('/users', users);
-//app.use('/weixin', weixin);
-app.use(express.query()); // Or app.use(express.query());
+app.use(express.query()); 
+
+
+
+
+
 app.use('/wechat', wechat('blablablabla', function (req, res, next) { //token add
  // 微信输入信息都在req.weixin上
  var message = req.weixin;
  console.log(message);
+ 
+ var  mongodb = require('mongodb');
+ var  server  = new mongodb.Server('localhost', 27017, {auto_reconnect:true});
+ var  db = new mongodb.Db('mydb', server, {safe:true});
+ dbcon(db);
 
  if((message.MsgType == 'event') && (message.Event == 'subscribe'))
  {
