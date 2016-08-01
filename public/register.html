@@ -31,19 +31,23 @@
             <!-- Input group with labels-->
             <form class="input-group">
                 <div class="input-row">
-                    <label>用户名</label>
-                    <input id="username_form" type="text" placeholder="字母、数字、下划线">
+                    <label>您的姓名</label>
+                    <input id="username_form"  name = "uname" type="text" placeholder="用户姓名">
                 </div>
                 <div class="input-row">
-                    <label>邮箱</label>
-                    <input type="email" placeholder="example@gmail.com">
+                    <label>ZTE_ID</label>
+                    <input id = "user_zid_form" name = "uzid" type="text" placeholder="八位工号">
                 </div>
                 <div class="input-row">
                     <label>邀请码</label>
-                    <input id="username_form" type="text" >
+                    <input id="user_percode_form" name = "percode" type="text" >
                 </div>
+                <select>
+  				<option value="0" selected>位置:  波分武汉开发部</option>
+				</select>
+                
                
-                <a class="button block" data-icon="cogs">保存</a>
+                <a class="button block" data-icon="cogs">提交</a>
             </form>
         </div>
     </article>
