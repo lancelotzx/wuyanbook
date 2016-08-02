@@ -9,6 +9,24 @@
 
     <link rel="stylesheet" href="css/Jingle.css">
     <link rel="stylesheet" href="css/app.css">
+    <script>
+    var $_GET = (function(){
+    var url = window.document.location.href.toString();
+    var u = url.split("?");
+    if(typeof(u[1]) == "string"){
+        u = u[1].split("&");
+        var get = {};
+        for(var i in u){
+            var j = u[i].split("=");
+            get[j[0]] = j[1];
+        }
+        return get;
+    } else {
+        return {};
+    }
+})();
+     document.getElementById("weixinid").value =  $_GET['weixinId'];
+    </script>
 </head>
 <body>
 <div id="aside_container">
@@ -29,7 +47,7 @@
     <article data-scroll="true" class="active" id="form_article" >
         <div class="indented">
             <!-- Input group with labels-->
-            <form class="input-group">
+            <form name ="regiform" class="input-group"  method="post" action="logincheck">
                 <div class="input-row">
                     <label>您的姓名</label>
                     <input id="username_form"  name = "uname" type="text" placeholder="用户姓名">
@@ -46,8 +64,8 @@
   				<option value="0" selected>位置:  波分武汉开发部</option>
 				</select>
                 
-               
-                <a class="button block" data-icon="cogs">提交</a>
+                <input type = "hidden" name = "weixinid" value= weixinId >
+                <a class="button block" data-icon="cogs" onClick= 				 		 							function(){regiform.submit()} >提交</a>
             </form>
         </div>
     </article>
