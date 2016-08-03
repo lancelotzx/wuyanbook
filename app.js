@@ -34,6 +34,7 @@ app.use(express.query());
 /*必须先db读库，确认appid不存在，再insert用户表*/
 app.post('/logincheck',function(req, res){  
       console.log('come in logincheck');
+      console.log(req.body);
       if(req.body.uname!= null && req.body.uzid != null &&
          req.body.percode == '1919'){ //邀请码先硬编码写入
             var user = {'username':req.body.uname,'userzid':req.body.uzid,'appid':req.body.weixinid};
