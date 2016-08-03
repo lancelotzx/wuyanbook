@@ -10,7 +10,12 @@ var crypto = require('crypto');
 /* GET home page. */
 router.get('/', function(req, res, next) {
   console.log("gegege\n");
-  res.render('index', { title: 'Express' });
+  res.render('register');
+});
+
+router.get('/login', function(req, res, next) {
+  console.log("login \n");
+  res.render('login');
 });
 
 module.exports = router;
