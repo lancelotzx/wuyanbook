@@ -2,74 +2,42 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>UserRegister</title>
+    <title>UserLogin</title>
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
 
     <link rel="stylesheet" href="css/Jingle.css">
     <link rel="stylesheet" href="css/app.css">
-    <script>
-    var $_GET = (function(){
-    var url = window.document.location.href.toString();
-    var u = url.split("?");
-    if(typeof(u[1]) == "string"){
-        u = u[1].split("&");
-        var get = {};
-        for(var i in u){
-            var j = u[i].split("=");
-            get[j[0]] = j[1];
-        }
-        return get;
-    } else {
-        return {};
-    }
-})();
-     document.getElementById("weixinid").value =  $_GET['weixinId'];
-    </script>
 </head>
 <body>
 <div id="aside_container">
 </div>
 
-<form name ="regiform" id = "form1"  method="post" action="regicheck">
+<form name ="loginform" id = "form1"  method="post" action="logincheck">
 <div id="section_container">
     <section id="form_section" class="active" >
     <header>
-        <h1 class="title">Register</h1>
+        <h1 class="title">Login</h1>
     </header>
     <footer>
        
-        <a  href="/login"  data-icon="list" >用户登录</a>
+        <a  href="/login" data-target="article" data-icon="list" >用户登录</a>
     </footer>
     <article data-scroll="true" class="active" id="form_article" >
         <div class="indented">
             <!-- Input group with labels-->
 
-                <div class="input-row">
-                    <label>您的姓名</label>
-                    <input id="username_form"  name = "uname" type="text" placeholder="用户姓名">
-                </div>
+                
                 <div class="input-row">
                     <label>ZTE_ID</label>
                     <input id = "user_zid_form" name = "uzid" type="text" placeholder="八位工号">
                 </div>
                 <div class="input-row">
-                    <label>设定密码</label>
+                    <label>密码</label>
                     <input id="userpwd_form"  name = "usrpwd" type="password" placeholder="至少六位">
                 </div>
-                <div class="input-row">
-                    <label>确认密码</label>
-                    <input id="userpwd_form2"  name = "usrpwd2" type="password" placeholder="重新输入密码">
-                </div>
-                <div class="input-row">
-                    <label>邀请码</label>
-                    <input id="user_percode_form" name = "percode" type="text" >
-                </div>
-                <select>
-  				<option value="0" selected>位置:  波分武汉开发部</option>
-				</select>
-                
+
                 <input type = "hidden" name = "weixinid" value= "" >
                 <a class="button block" data-icon="cogs"  href=		 
                 "javascript:void(0)" onClick=

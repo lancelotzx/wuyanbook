@@ -6,12 +6,15 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
-var users = require('./routes/users')
+var users = require('./routes/users');
+
+var dbcon = require('./mongodbcon');
 
 var app = express();
 
 var wechat = require('wechat');
 
+// view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
@@ -21,23 +24,50 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(express.query()); // Or app.use(express.query());
-app.use('/wechat', wechat('blablablabla', function (req, res, next) { //token add
+app.use(express.query()); 
+
+//进行页面的Control处理
+//所有页面入口默认为/logincheck,从weixin入口的入口页
+//从regitster提交的表单处理 
+/*http://yijiebuyi.com/blog/90c1381bfe0efb94cf9df932147552be.html */
+/*form 先使用www-form-urlencoded方式*/
+/*必须先db读库，确认appid不存在，再insert用户表*/
+app.post('/logincheck',function(req, res){  
+      console.log('come in logincheck');
+      console.log(req.body);
+      if(req.body.uname!= null && req.body.uzid != null &&
+         req.body.percode == '1919'){ //邀请码先硬编码写入
+            var user = {'username':req.body.uname,'userzid':req.body.uzid,'appid':req.body.weixinid};
+            req.session.user = user;
+            console.log(user);
+            //res.redirect('/admin/app/list');
+          }
+          
+      });  
+
+
+
+//下面是weixin的对话交互业务处理代码
+app.use('/wechat', wechat('blablablabla', function (req, res, next) { 
  // 微信输入信息都在req.weixin上
  var message = req.weixin;
  console.log(message);
+ 
+ var  mongodb = require('mongodb');
+ var  server  = new mongodb.Server('localhost', 27017, {auto_reconnect:true});
+ var  db = new mongodb.Db('mydb', server, {safe:true});
+ dbcon(db);
 
  if((message.MsgType == 'event') && (message.Event == 'subscribe'))
  {
 
   var registerStr = "<a href=\"http://www.wylib.top/register.html?weixinId=" + 
   message.FromUserName + "\">1. 点击开始注册</a>" 
-  var refillStr = "<a href=\"http://52.10.69.3/weixin/refill?weixinId=" + 
-  message.FromUserName + "\">1. 点击查看当前借阅</a>"     
-  var consumeStr = "<a href=\"http://52.10.69.3/weixin/consume?weixinId=" +
-   message.FromUserName + "\">2. 点击查看书单</a>"
-  var deleteStr = "<a href=\"http://52.10.69.3/weixin/delete?weixinId=" + 
-  message.FromUserName + "\">3. Show me lucky one</a>"      
+  var refillStr = "<a href=\"" + 
+  message.FromUserName + "\">2. 点击查看当前借阅</a>"     
+  var consumeStr = "<a href=\"" +
+   message.FromUserName + "\">3. 点击查看书单</a>"
+  var deleteStr = ""      
   var historyStr = "<a href=\"http://52.10.69.3/weixin/history?weixinId=" + 
   message.FromUserName + "\">4. 点击查询历史记录</a>"
       
@@ -53,6 +83,7 @@ if(message.MsgType == 'text')
     "you are" + message.FromUserName});  
 }
 }));
+
 
 
 app.use('/', routes);
