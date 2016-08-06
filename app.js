@@ -64,6 +64,10 @@ app.post('/logincheck',function(req, res){
           
       });  
 
+app.post('/wechat',function(req, res){  
+      console.log('come in wechat');
+      console.log(req.body);     
+      });
 
 
 //下面是weixin的对话交互业务处理代码
