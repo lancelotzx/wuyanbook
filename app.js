@@ -56,11 +56,14 @@ app.post('/logincheck',function(req, res){
 //下面是weixin的对话交互业务处理代码
 app.use('/wechat', wechat('blablablabla', function (req, res, next) { 
     
-  var menu = fs.readFileSync('./wechat-menu.json');  
+  var menu = fs.readFileSync('wechat-menu.json');  
   if(menu) {  
     menu = JSON.parse(menu);  
+    console.log(menu);
   }  
-  api.createMenu(menu, function(err, result){});  
+  api.createMenu(menu, function(err, result){
+    console.log(result);
+  });  
   
 
 
@@ -71,7 +74,7 @@ app.use('/wechat', wechat('blablablabla', function (req, res, next) {
  var  mongodb = require('mongodb');
  var  server  = new mongodb.Server('localhost', 27017, {auto_reconnect:true});
  var  mydb = new mongodb.Db('mydb', server, {safe:true});
- db.dbcon(mydb);
+ //db.dbcon(mydb);
 
  if((message.MsgType == 'event') && (message.Event == 'subscribe'))
  {
