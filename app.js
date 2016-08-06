@@ -101,6 +101,12 @@ if(message.MsgType == 'text')
     res.reply({ type: "text", content: "you input " + message.Content + "\n"+
     "you are" + message.FromUserName});  
 }
+//test qrcode 
+if((message.MsgType == 'event')&&(message.Event == 'scancode_push'))
+{
+    res.reply({type: "text", content: "isbn is" + message.ScanCodeInfo.ScanResult });
+}
+
 }));
 
 
