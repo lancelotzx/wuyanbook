@@ -61,7 +61,7 @@ app.use('/wechat', wechat('blablablabla', function (req, res, next) {
  if((message.MsgType == 'event') && (message.Event == 'subscribe'))
  {
 
-  var registerStr = "<a href=\"http://www.wylib.top/register.html?weixinId=" + 
+  var registerStr = "<a href=\"http://www.wylib.top/register?weixinId=" + 
   message.FromUserName + "\">1. 点击开始注册</a>" 
   var refillStr = "<a href=\"" + 
   message.FromUserName + "\">2. 点击查看当前借阅</a>"     
