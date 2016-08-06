@@ -1,5 +1,5 @@
 //连接db,以匿名函数作为module接口，自己实现
-module.exports = function(db){
+module.exports.dbcon = function(db){
 
 db.open(function(err, db){
     

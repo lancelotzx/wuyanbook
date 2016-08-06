@@ -4,15 +4,23 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var fs = require('fs');  
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
-var dbcon = require('./mongodbcon');
+var db = require('./mongodbcon');
 
 var app = express();
 
 var wechat = require('wechat');
+
+//add for customed menu with QRcode scan
+var API = wechat.API  
+  , appid = 'wxcb602c7b716c5ccc'  
+  , secret = '458d35a4def8277722cf954f9956c3c0';  
+var api = new API(appid, secret);  
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -49,14 +57,23 @@ app.post('/logincheck',function(req, res){
 
 //下面是weixin的对话交互业务处理代码
 app.use('/wechat', wechat('blablablabla', function (req, res, next) { 
+    
+  var menu = fs.readFileSync('./wechat-menu.json');  
+  if(menu) {  
+    menu = JSON.parse(menu);  
+  }  
+  api.createMenu(menu, function(err, result){});  
+  
+
+
  // 微信输入信息都在req.weixin上
  var message = req.weixin;
  console.log(message);
  
  var  mongodb = require('mongodb');
  var  server  = new mongodb.Server('localhost', 27017, {auto_reconnect:true});
- var  db = new mongodb.Db('mydb', server, {safe:true});
- dbcon(db);
+ var  mydb = new mongodb.Db('mydb', server, {safe:true});
+ db.dbcon(mydb);
 
  if((message.MsgType == 'event') && (message.Event == 'subscribe'))
  {
@@ -72,9 +89,9 @@ app.use('/wechat', wechat('blablablabla', function (req, res, next) {
   message.FromUserName + "\">4. 点击查询历史记录</a>"
       
   var emptyStr = "          ";    
-  var replyStr = "感谢你的关注！" + "\n"+ emptyStr + "\n" +registerStr +"\n"+ refillStr + "\n"+ 
-  emptyStr + "\n" + consumeStr  + "\n"+ emptyStr + "\n" + deleteStr + "\n"+ 
-  emptyStr + "\n" + historyStr;
+  var replyStr = "感谢你的关注！" + "\n"+ emptyStr + "\n" +registerStr +"\n"+ 
+  emptyStr + "\n" refillStr + "\n"+ 
+  emptyStr + "\n" + consumeStr  + "\n"+ emptyStr + "\n" + historyStr;
   res.reply(replyStr);
  }
 if(message.MsgType == 'text')
