@@ -16,11 +16,9 @@ var app = express();
 var wechat = require('wechat');
 
 //add for customed menu with QRcode scan
-var API = wechat.API  
-  , appid = 'wxcb602c7b716c5ccc'  
-  , secret = '458d35a4def8277722cf954f9956c3c0';  
-var api = new API(appid, secret);  
-
+var API = require('wechat-api');
+var api = new API('wxcb602c7b716c5ccc', '458d35a4def8277722cf954f9956c3c0');
+ 
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
