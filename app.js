@@ -18,7 +18,20 @@ var wechat = require('wechat');
 //add for customed menu with QRcode scan
 var API = require('wechat-api');
 var api = new API('wxcb602c7b716c5ccc', '458d35a4def8277722cf954f9956c3c0');
- 
+
+api.getAccessToken(function (err, token) {  
+    console.log(err);  
+    console.log(token);  
+}); 
+
+var menu = fs.readFileSync('wechat-menu.json');  
+  if(menu) {  
+    menu = JSON.parse(menu);  
+    console.log(menu);
+  }  
+  api.createMenu(menu, function(err, result){
+    console.log(result);
+  }); 
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -55,18 +68,6 @@ app.post('/logincheck',function(req, res){
 
 //下面是weixin的对话交互业务处理代码
 app.use('/wechat', wechat('blablablabla', function (req, res, next) { 
-    
-  var menu = fs.readFileSync('wechat-menu.json');  
-  if(menu) {  
-    menu = JSON.parse(menu);  
-    console.log(menu);
-  }  
-  api.createMenu(menu, function(err, result){
-    console.log(result);
-  });  
-  
-
-
  // 微信输入信息都在req.weixin上
  var message = req.weixin;
  console.log(message);
