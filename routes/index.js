@@ -8,8 +8,7 @@ var crypto = require('crypto');
  */
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  console.log("gegege\n");
+router.get('/register', function(req, res, next) {
   res.render('register');
 });
 
