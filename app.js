@@ -90,8 +90,8 @@ app.use('/wechat', wechat('blablablabla', function (req, res, next) {
       
   var emptyStr = "          ";    
   var replyStr = "感谢你的关注！" + "\n"+ emptyStr + "\n" +registerStr +"\n"+ 
-  emptyStr + "\n" refillStr + "\n"+ 
-  emptyStr + "\n" + consumeStr  + "\n"+ emptyStr + "\n" + historyStr;
+  emptyStr + "\n" + refillStr + "\n"+ emptyStr + "\n" + consumeStr  + "\n"+
+  emptyStr + "\n" + historyStr;
   res.reply(replyStr);
  }
 if(message.MsgType == 'text')
