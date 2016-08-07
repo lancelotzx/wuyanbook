@@ -110,7 +110,7 @@ if((message.MsgType == 'event')&&(message.Event == 'scancode_waitmsg'))
 
     app.get('https://api.douban.com/v2/book/isbn/'+isbncode, function(req, res) 
     {  
-      console.log(res.query.title);  
+       console.log(res.query.title);  
     }); 
 }
 
