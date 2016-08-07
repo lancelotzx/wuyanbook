@@ -104,7 +104,7 @@ if(message.MsgType == 'text')
 if((message.MsgType == 'event')&&(message.Event == 'scancode_push'))
 {
     console.log("here"+ + message.ScanCodeInfo + "sss\n" + message.ScanCodeInfo.ScanResult);
-    res.reply("isbn is" + message.ScanCodeInfo.ScanResult });
+    res.reply("isbn is" + message.ScanCodeInfo.ScanResult +"\n");
 }
 
 }));
