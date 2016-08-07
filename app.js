@@ -5,6 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var fs = require('fs');  
+//var http  = require('http');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -103,8 +104,14 @@ if(message.MsgType == 'text')
 //test qrcode 
 if((message.MsgType == 'event')&&(message.Event == 'scancode_waitmsg'))
 {
+    var isbncode = (message.ScanCodeInfo.ScanResult.split(/,/))[1];
     //console.log("here"+ + message.ScanCodeInfo + "sss\n" + message.ScanCodeInfo.ScanResult);
-    res.reply("isbn is" + (message.ScanCodeInfo.ScanResult.split(/,/))[1] +"\n");
+    res.reply("isbn is " + isbncode +"\n");
+
+    app.get('https://api.douban.com/v2/book/isbn/'+isbncode, function(req, res) 
+    {  
+      console.log(res.query.title);  
+    }); 
 }
 
 }));
