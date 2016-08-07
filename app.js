@@ -64,11 +64,6 @@ app.post('/logincheck',function(req, res){
           
       });  
 
-app.post('/wechat',function(req, res){  
-      console.log('come in wechat');
-      console.log(req.body);     
-      });
-
 
 //下面是weixin的对话交互业务处理代码
 app.use('/wechat', wechat('blablablabla', function (req, res, next) { 
@@ -108,8 +103,8 @@ if(message.MsgType == 'text')
 //test qrcode 
 if((message.MsgType == 'event')&&(message.Event == 'scancode_push'))
 {
-    console.log("here\n");
-    res.reply({ type: "text", content: "isbn is" + message.ScanCodeInfo.ScanResult });
+    console.log("here"+ + message.ScanCodeInfo + "sss\n" + message.ScanCodeInfo.ScanResult);
+    res.reply("isbn is" + message.ScanCodeInfo.ScanResult });
 }
 
 }));
