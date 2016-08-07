@@ -101,10 +101,10 @@ if(message.MsgType == 'text')
     "you are" + message.FromUserName});  
 }
 //test qrcode 
-if((message.MsgType == 'event')&&(message.Event == 'scancode_push'))
+if((message.MsgType == 'event')&&(message.Event == 'scancode_waitmsg'))
 {
-    console.log("here"+ + message.ScanCodeInfo + "sss\n" + message.ScanCodeInfo.ScanResult);
-    res.reply("isbn is" + message.ScanCodeInfo.ScanResult +"\n");
+    //console.log("here"+ + message.ScanCodeInfo + "sss\n" + message.ScanCodeInfo.ScanResult);
+    res.reply("isbn is" + (message.ScanCodeInfo.ScanResult.split(/,/))[1] +"\n");
 }
 
 }));
