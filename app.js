@@ -130,7 +130,7 @@ if((message.MsgType == 'event')&&(message.Event == 'scancode_waitmsg'))
         var buff = Buffer.concat(datas, size); 
         var bookJSON = buff.strify(buff); 
         //var result = buff.toString();//不需要转编码,直接tostring 
-        res.reply("isbn is " + isbncode +"\n" + "图书简介：" ＋ bookJSON.summary + "\n");
+        res.reply("isbn is " + isbncode +"\n" + "图书简介:" + bookJSON.summary + "\n");
  
         console.log(result);  
     });  
