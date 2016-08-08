@@ -102,9 +102,7 @@ app.use('/wechat', wechat('blablablabla', function (req, res, next) {
  }
 
 if(message.MsgType == 'text')
-{
-    res.reply({ type: "text", content: "you input " + message.Content + "\n"+
-    "your appid is" + message.FromUserName}); 
+{ 
     if((message.Content == 'm') || (message.Content == 'M'))
     {
       res.reply(replyStr);
