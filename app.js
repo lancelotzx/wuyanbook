@@ -112,6 +112,7 @@ if(message.MsgType == 'text')
 if((message.MsgType == 'event')&&(message.Event == 'scancode_waitmsg'))
 {
     var isbncode = (message.ScanCodeInfo.ScanResult.split(/,/))[1];
+    var booksummery = "";
     //console.log("here"+ + message.ScanCodeInfo + "sss\n" + message.ScanCodeInfo.ScanResult);
 
     //douban API get book info by ISBNcode
@@ -129,7 +130,7 @@ if((message.MsgType == 'event')&&(message.Event == 'scancode_waitmsg'))
         //var bookJSON = buff.strify(buff); 
         var strresult = buff.toString();//不需要转编码,直接tostring 
         var BookJSON = JSON.parse(strresult);//string to JSON obj
-        res.reply("isbn is " + isbncode +"\n" + "图书简介:" + BookJSON.summary + "\n");
+        booksummery = BookJSON.summary;
  
         console.log(result);  
     });  
@@ -137,6 +138,9 @@ if((message.MsgType == 'event')&&(message.Event == 'scancode_waitmsg'))
         Logger.error(err.stack)  
         callback.apply(null);  
     });
+    //下面是异步处理，可能需要直接存数据库进行持久化
+    res.reply("isbn is " + isbncode +"\n" + "图书简介:" + booksummery + "\n");
+
 
 }
 
