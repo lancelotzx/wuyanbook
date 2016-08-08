@@ -132,7 +132,7 @@ if((message.MsgType == 'event')&&(message.Event == 'scancode_waitmsg'))
         var BookJSON = JSON.parse(strresult);//string to JSON obj
         booksummery = BookJSON.summary;
  
-        console.log(result);  
+        console.log(booksummery);  
     });  
     }).on("error", function (err) {  
         Logger.error(err.stack)  
