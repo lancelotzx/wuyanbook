@@ -126,9 +126,10 @@ if((message.MsgType == 'event')&&(message.Event == 'scancode_waitmsg'))
     });  
     res.on("end", function () {  
         var buff = Buffer.concat(datas, size); 
-        var bookJSON = buff.strify(buff); 
-        //var result = buff.toString();//不需要转编码,直接tostring 
-        res.reply("isbn is " + isbncode +"\n" + "图书简介:" + bookJSON.summary + "\n");
+        //var bookJSON = buff.strify(buff); 
+        var strresult = buff.toString();//不需要转编码,直接tostring 
+        var BookJSON = JSON.parse(strresult);//string to JSON obj
+        res.reply("isbn is " + isbncode +"\n" + "图书简介:" + BookJSON.summary + "\n");
  
         console.log(result);  
     });  
