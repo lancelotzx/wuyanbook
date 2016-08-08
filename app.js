@@ -5,6 +5,8 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var fs = require('fs');  
+var https = require("https");  
+
 //var http  = require('http');
 
 var routes = require('./routes/index');
@@ -101,17 +103,33 @@ if(message.MsgType == 'text')
     res.reply({ type: "text", content: "you input " + message.Content + "\n"+
     "you are" + message.FromUserName});  
 }
-//test qrcode 
+//test qrcode && douban API
 if((message.MsgType == 'event')&&(message.Event == 'scancode_waitmsg'))
 {
     var isbncode = (message.ScanCodeInfo.ScanResult.split(/,/))[1];
     //console.log("here"+ + message.ScanCodeInfo + "sss\n" + message.ScanCodeInfo.ScanResult);
     res.reply("isbn is " + isbncode +"\n");
 
-    app.get('https://api.douban.com/v2/book/isbn/'+isbncode, function(req, res) 
-    {  
-       console.log(res.query.title);  
-    }); 
+    //douban API get book info by ISBNcode
+    var url = 'https://api.douban.com/v2/book/isbn/'+isbncode;
+    https.get(url, function (res) {  
+    var datas = [];  
+    var size = 0;  
+    res.on('data', function (data) {  
+        datas.push(data);  
+        size += data.length;  
+    //process.stdout.write(data);  
+    });  
+    res.on("end", function () {  
+        var buff = Buffer.concat(datas, size);  
+        var result = buff.toString();//不需要转编码,直接tostring  
+        console.log(result);  
+    });  
+    }).on("error", function (err) {  
+        Logger.error(err.stack)  
+        callback.apply(null);  
+    });
+
 }
 
 }));
