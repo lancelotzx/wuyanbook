@@ -70,17 +70,9 @@ app.post('/logincheck',function(req, res){
 
 //下面是weixin的对话交互业务处理代码
 app.use('/wechat', wechat('blablablabla', function (req, res, next) { 
- // 微信输入信息都在req.weixin上
- var message = req.weixin;
- console.log(message);
- 
- var  mongodb = require('mongodb');
- var  server  = new mongodb.Server('localhost', 27017, {auto_reconnect:true});
- var  mydb = new mongodb.Db('mydb', server, {safe:true});
- //db.dbcon(mydb);
-
- if((message.MsgType == 'event') && (message.Event == 'subscribe'))
- {
+  // 微信输入信息都在req.weixin上
+  var message = req.weixin;
+  console.log(message);
 
   var registerStr = "<a href=\"http://www.wylib.top/register?weixinId=" + 
   message.FromUserName + "\">1. 点击开始注册</a>" 
@@ -93,22 +85,36 @@ app.use('/wechat', wechat('blablablabla', function (req, res, next) {
   message.FromUserName + "\">4. 点击查询历史记录</a>"
       
   var emptyStr = "          ";    
-  var replyStr = "感谢你的关注！" + "\n"+ emptyStr + "\n" +registerStr +"\n"+ 
+  var replyStr = "感谢你的关注！输入m获取此菜单" + "\n"+ emptyStr + "\n" +registerStr +"\n"+ 
   emptyStr + "\n" + refillStr + "\n"+ emptyStr + "\n" + consumeStr  + "\n"+
   emptyStr + "\n" + historyStr;
+ 
+ ///////下面是测试成功的数据库连接代码
+ //var  mongodb = require('mongodb');
+ //var  server  = new mongodb.Server('localhost', 27017, {auto_reconnect:true});
+ //var  mydb = new mongodb.Db('mydb', server, {safe:true});
+ //db.dbcon(mydb);
+ ////////
+
+ if((message.MsgType == 'event') && (message.Event == 'subscribe'))
+ { 
   res.reply(replyStr);
  }
+
 if(message.MsgType == 'text')
 {
     res.reply({ type: "text", content: "you input " + message.Content + "\n"+
-    "you are" + message.FromUserName});  
+    "your appid is" + message.FromUserName}); 
+    if((message.Content == 'm') || (message.Content == 'M'))
+    {
+      res.reply(replyStr);
+    }
 }
 //test qrcode && douban API
 if((message.MsgType == 'event')&&(message.Event == 'scancode_waitmsg'))
 {
     var isbncode = (message.ScanCodeInfo.ScanResult.split(/,/))[1];
     //console.log("here"+ + message.ScanCodeInfo + "sss\n" + message.ScanCodeInfo.ScanResult);
-    res.reply("isbn is " + isbncode +"\n");
 
     //douban API get book info by ISBNcode
     var url = 'https://api.douban.com/v2/book/isbn/'+isbncode;
@@ -121,8 +127,11 @@ if((message.MsgType == 'event')&&(message.Event == 'scancode_waitmsg'))
     //process.stdout.write(data);  
     });  
     res.on("end", function () {  
-        var buff = Buffer.concat(datas, size);  
-        var result = buff.toString();//不需要转编码,直接tostring  
+        var buff = Buffer.concat(datas, size); 
+        var bookJSON = buff.strify(buff); 
+        //var result = buff.toString();//不需要转编码,直接tostring 
+        res.reply("isbn is " + isbncode +"\n" + "图书简介：" ＋ bookJSON.summary + "\n");
+ 
         console.log(result);  
     });  
     }).on("error", function (err) {  
