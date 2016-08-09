@@ -5,17 +5,22 @@
             "sub_button": [
                 {
                     "type": "scancode_waitmsg", 
-                    "name": "扫码带提示", 
+                    "name": "扫码借还书", 
                     "key": "rselfmenu_0_0", 
-                    "sub_button": [ ]
-                }, 
-                {
-                    "type": "scancode_push", 
-                    "name": "扫码推事件", 
-                    "key": "rselfmenu_0_1", 
                     "sub_button": [ ]
                 }
             ]
-        }       
+        } ,
+        {
+            "name": "我的图书", 
+            "sub_button": [
+                {
+                    "type": "click", 
+                    "name": "我的图书", 
+                    "key": "rselfmenu_1_0", 
+                    "sub_button": [ ]
+                }
+            ]
+        }      
     ]
 }
