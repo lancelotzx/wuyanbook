@@ -10,29 +10,21 @@
     <link rel="stylesheet" href="css/Jingle.css">
     <link rel="stylesheet" href="css/app.css">
     <script>
-    var $_GET = (function(){
-    var url = window.document.location.href.toString();
-    var u = url.split("?");
-    if(typeof(u[1]) == "string"){
-        u = u[1].split("&");
-        var get = {};
-        for(var i in u){
-            var j = u[i].split("=");
-            get[j[0]] = j[1];
-        }
-        return get;
-    } else {
-        return {};
-    }
-})();
-     document.getElementById("weixinid").value =  $_GET['weixinId'];
+    function GetQueryString(name)
+	{
+		 var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+		 var r = window.location.search.substr(1).match(reg);
+		 if(r!=null)return  unescape(r[2]); return null;
+	}
+    alert("aaa" + GetQueryString("weixinId"));
+    document.getElementById("weixinid").value = GetQueryString("weixinId") ;
     </script>
 </head>
 <body>
 <div id="aside_container">
 </div>
 
-<form name ="regiform" id = "form1"  method="post" action="logincheck">
+<form name ="regiform" id = "form1"  method="post" action="regicheck">
 <div id="section_container">
     <section id="form_section" class="active" >
     <header>
@@ -40,7 +32,7 @@
     </header>
     <footer>
        
-        <a  href="/login" data-target="article" data-icon="list" >用户登录</a>
+        <a  href="/login"  data-icon="list" >用户登录</a>
     </footer>
     <article data-scroll="true" class="active" id="form_article" >
         <div class="indented">
@@ -70,7 +62,7 @@
   				<option value="0" selected>位置:  波分武汉开发部</option>
 				</select>
                 
-                <input type = "hidden" name = "weixinid" value= "" >
+                <input type = "hidden"  id = "weixinid" name = "weixinid" value= "" >
                 <a class="button block" data-icon="cogs"  href=		 
                 "javascript:void(0)" onClick=
                 "document.getElementById('form1').submit()" >提交</a>
@@ -88,7 +80,6 @@
 <script type="text/javascript" src="js/lib/template.min.js"></script>
 <script type="text/javascript" src="js/lib/Jingle.debug.js"></script>
 <script type="text/javascript" src="js/lib/zepto.touch2mouse.js"></script>
-<script type="text/javascript" src="js/lib/JChart.debug.js"></script>
 <!--- app --->
 <script type="text/javascript" src="js/app/app.js"></script>
 
