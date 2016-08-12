@@ -65,7 +65,23 @@ app.post('/logincheck',function(req, res){
             //res.redirect('/admin/app/list');
           }
           
-      });  
+});  
+
+/*用户注册页面的post处理*/
+app.post('/regicheck',function(req, res){  
+      console.log('come in regicheck');
+      console.log(req.body);
+      if(req.body.uname!= null && req.body.uzid != null &&
+         req.body.percode == '1919'){ //邀请码先硬编码写入
+            var user = {'username':req.body.uname,'userzid':req.body.uzid,'appid':req.body.weixinid};
+            //req.session.user = user;
+            console.log(user);
+            //res.redirect('/admin/app/list');
+          }
+          
+});  
+
+
 
 
 //下面是weixin的对话交互业务处理代码
