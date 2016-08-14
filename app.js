@@ -5,6 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var fs = require('fs');  
+var ejs = require('ejs');
 var https = require("https");  
 
 //var http  = require('http');
@@ -38,7 +39,7 @@ var menu = fs.readFileSync('wechat-menu.json');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.engine('.html',require('ejs'.renderFile));
+app.engine('.html',ejs.__express);
 app.set('view engine', 'html');
 
 app.use(logger('dev'));
