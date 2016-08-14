@@ -9,6 +9,12 @@
 
     <link rel="stylesheet" href="css/Jingle.css">
     <link rel="stylesheet" href="css/app.css">
+    <link rel="stylesheet" href="https://jqueryvalidation.org/files/demo/site-demos.css">
+ 
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/jquery.validation/1.15.0/jquery.validate.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/jquery.validation/1.15.0/additional-methods.min.js"></script>
+
     
 </head>
 <body>
@@ -37,6 +43,7 @@
                     <label>ZTE_ID</label>
                     <input id = "user_zid_form" name = "uzid" type="text" placeholder="八位工号">
                 </div>
+                <!--
                 <div class="input-row">
                     <label>设定密码</label>
                     <input id="userpwd_form"  name = "usrpwd" type="password" placeholder="至少六位">
@@ -45,12 +52,13 @@
                     <label>确认密码</label>
                     <input id="userpwd_form2"  name = "usrpwd2" type="password" placeholder="重新输入密码">
                 </div>
+                -->
                 <div class="input-row">
                     <label>邀请码</label>
                     <input id="user_percode_form" name = "percode" type="text" >
                 </div>
-                <select>
-  				<option value="0" selected>位置:  波分武汉开发部</option>
+                <select name = "uzdept">
+  				<option value="1" selected>位置:  波分武汉开发部</option>
 				</select>
                 
                 
@@ -69,22 +77,46 @@
     			</script>
                 <a class="button block" data-icon="cogs"  href=		 
                 "javascript:void(0)" onClick=
-                "document.getElementById('form1').submit()" >提交</a>
+                "document.getElementById('form1').submit()">提交</a>
            
         	</div>
     	</article>
 
     </section>
  </div>
+ <script>
+	// just for the demos, avoids form submit
+	jQuery.validator.setDefaults({
+	  debug: true,
+	  success: "valid"
+	});
+	$( "#form1" ).validate({
+	  rules: {
+		username_form: {
+		  required: true,
+		  min: 2
+		},
+		user_zid_form:{
+		  required: true,
+		  min: 5,
+		  digits: true
+		},
+		user_percode_form:{
+		  required: true,
+		  min: 4
+		}
+	  }
+	});
+</script>
 </form>
 <!--<script type="text/javascript" src="js/lib/cordova.js"></script>-->
 <!-- lib -->
 <script type="text/javascript" src="js/lib/zepto.js"></script>
 <script type="text/javascript" src="js/lib/iscroll.js"></script>
 <script type="text/javascript" src="js/lib/template.min.js"></script>
-<script type="text/javascript" src="js/lib/Jingle.debug.js"></script>
+<!-- <script type="text/javascript" src="js/lib/Jingle.debug.js"></script>
 <script type="text/javascript" src="js/lib/zepto.touch2mouse.js"></script>
-<script type="text/javascript" src="js/lib/JChart.debug.js"></script>
+<script type="text/javascript" src="js/lib/JChart.debug.js"></script> -->
 <!--- app --->
 <script type="text/javascript" src="js/app/app.js"></script>
 

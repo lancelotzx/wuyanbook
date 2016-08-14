@@ -69,13 +69,36 @@ app.post('/logincheck',function(req, res){
           
 });  
 
-/*用户注册页面的post处理*/
+//用户注册页面的post处理
+//保存用户第一次的注册json信息到user table
+//user table 结构
+/*
+ 表user :  
+               列名：
+                        { 
+                          user_appid: 用户的wechat appid
+                          user_name:用户姓名
+                          user_zid: 用户zteid
+                         // user_pwd: hash 后的密码
+                          user_zdept:用户zte部门，用数字代替，武汉为1
+                          user_loves:用户喜欢类型，初始化为[]
+                          user_role: 管理员为1，普通用户为0
+                         }
+
+*/
 app.post('/regicheck',function(req, res){  
-      console.log('come in regicheck');
+      console.log('come in regicheck process');
       console.log(req.body);
       if(req.body.uname!= null && req.body.uzid != null &&
          req.body.percode == '1919'){ //邀请码先硬编码写入
-            var user = {'username':req.body.uname,'userzid':req.body.uzid,'appid':req.body.weixinid};
+            var user = {
+                        'user_appid':req.body.weixinid,
+                        'user_name' :req.body.uname,
+                        'user_zid'  :req.body.uzid,
+                        'user_zdept':req.body.uzdept,
+                        'user_loves':[],
+                        'user_role' : "0"
+                        };
             //req.session.user = user;
             console.log(user);
             //res.redirect('/admin/app/list');
